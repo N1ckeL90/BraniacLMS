@@ -175,6 +175,7 @@ cython_debug/
 # Built Visual Studio Code Extensions
 *.vsix
 # User-specific stuff
+.idea/
 .idea/**/workspace.xml
 .idea/**/tasks.xml
 .idea/**/usage.statistics.xml
