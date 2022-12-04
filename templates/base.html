@@ -21,20 +21,24 @@
 
 <body>
 
-{% include 'includes/main_menu.html' %}
+    {% include 'includes/main_menu.html' %}
 
-<div class="container-md">
+    {% block messages %}
+    {% include 'includes/messages.html' %}
+    {% endblock messages %}
 
-    {% block content %}
+    <div class="container-md">
 
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur
-        optio est esse? Veritatis laborum expedita
-        quibusdam numquam! Expedita amet nisi dolor similique autem, mollitia
-        ipsa et, natus vel explicabo
-        reprehenderit?
+        {% block content %}
 
-    {% endblock content %}
-</div>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur
+            optio est esse? Veritatis laborum expedita
+            quibusdam numquam! Expedita amet nisi dolor similique autem, mollitia
+            ipsa et, natus vel explicabo
+            reprehenderit?
+
+        {% endblock content %}
+    </div>
 
 <!-- Footer -->
 
@@ -49,7 +53,11 @@
             <ul class="list-unstyled">
                 <li><a href="{% url 'mainapp:index' %}">Домашняя</a></li>
                 <li><a href="{% url 'mainapp:news' %}">Новости</a></li>
-                <li><a href="{% url 'mainapp:login' %}">Войти</a></li>
+                {% if user.is_authenticated %}
+                <li><a href="{% url 'authapp:logout' %}">Выйти</a></li>
+                {% else %}
+                <li><a href="{% url 'authapp:login' %}">Войти</a></li>
+                {% endif %}
             </ul>
             </p>
         </div>
@@ -110,5 +118,18 @@
 
 <!-- FontAwesome -->
 <script src="{% static 'js/fontawesome.all.min.js'%}"></script>
+
+{% block js %}
+    <script>
+        $(document).ready(function () {
+        {% if messages %}
+            // Toasts
+        $(".toast").toast({ delay: 5000 });
+        $(".toast").toast("show");
+        {% endif %}
+    });
+    </script>
+    {% endblock js %}
+
 </body>
 </html>

@@ -80,4 +80,4 @@ class DocSitePageView(TemplateView):
 
 
 class LoginPageView(TemplateView):
-    template_name = 'mainapp/login.html'
+    template_name = 'mainapp/../authapp/templates/registration/login.html'
