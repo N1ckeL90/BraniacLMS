@@ -6,6 +6,7 @@ from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMix
 from django.urls import reverse_lazy
 from django.http import JsonResponse, FileResponse
 from django.template.loader import render_to_string
+from django.core.cache import cache
 
 from mainapp import models as mainapp_models
 from mainapp import forms as mainapp_forms
@@ -52,9 +53,16 @@ class CoursesDetailView(TemplateView):
                 context["feedback_form"] = mainapp_forms.CourseFeedbackForm(
                     course=context["course_object"], user=self.request.user
                 )
-        context["feedback_list"] = mainapp_models.CourseFeedback.objects.filter(
-            course=context["course_object"]
-        ).order_by("-created", "-rating")[:5]
+
+        cached_feedback = cache.get(f"feedback_list_{pk}")
+        if not cached_feedback:
+            context["feedback_list"] = mainapp_models.CourseFeedback.objects.filter(
+                course=context["course_object"]
+            ).order_by("-created", "-rating")[:5].select_related()
+            cache.set(
+                f"feedback_list_{pk}", context["feedback_list"], timeout=300
+            )
+        context["feedback_list"] = cached_feedback
         return context
 
 
