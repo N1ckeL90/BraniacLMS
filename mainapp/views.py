@@ -1,9 +1,10 @@
 import logging
-from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DetailView, DeleteView
+from django.conf import settings
+from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DetailView, DeleteView, View
 from django.shortcuts import get_object_or_404
-from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
-from django.http import JsonResponse
+from django.http import JsonResponse, FileResponse
 from django.template.loader import render_to_string
 
 from mainapp import models as mainapp_models
@@ -136,3 +137,26 @@ class NewsDeleteView(PermissionRequiredMixin, DeleteView):
     model = mainapp_models.News
     success_url = reverse_lazy("mainapp:news")
     permission_required = ("mainapp.delete_news",)
+
+
+class LogView(TemplateView):
+    template_name = "mainapp/log_view.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(LogView, self).get_context_data(**kwargs)
+        log_slice = []
+        with open(settings.LOG_FILE, "r") as log_file:
+            for i, line in enumerate(log_file):
+                if i == 1000:
+                    break
+                log_slice.insert(0, line)
+            context["log"] = "".join(log_slice)
+        return context
+
+
+class LogDownloadView(UserPassesTestMixin, View):
+    def test_func(self):
+        return self.request.user.is_superuser
+
+    def get(self, *args, **kwargs):
+        return FileResponse(open(settings.LOG_FILE, "rb"))
