@@ -153,7 +153,7 @@ class LoginPageView(TemplateView):
 
 class NewsListView(ListView):
     model = mainapp_models.News
-    paginate_by = 5
+    paginate_by = 4
 
     def get_queryset(self):
         return super().get_queryset().filter(deleted=False)
