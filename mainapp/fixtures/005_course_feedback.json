@@ -1,0 +1,74 @@
+[
+    {
+        "model": "mainapp.coursefeedback",
+        "pk": 1,
+        "fields": {
+            "course": 2,
+            "user": 1,
+            "feedback": "Feedback 001",
+            "rating": 5,
+            "created": "2021-09-03T16:56:59.026Z",
+            "deleted": false
+        }
+    },
+    {
+        "model": "mainapp.coursefeedback",
+        "pk": 2,
+        "fields": {
+            "course": 2,
+            "user": 1,
+            "feedback": "Feedback 002",
+            "rating": 5,
+            "created": "2021-09-03T16:57:05.645Z",
+            "deleted": false
+        }
+    },
+    {
+        "model": "mainapp.coursefeedback",
+        "pk": 3,
+        "fields": {
+            "course": 2,
+            "user": 1,
+            "feedback": "Feedback 003",
+            "rating": 4,
+            "created": "2021-09-03T16:57:13.615Z",
+            "deleted": false
+        }
+    },
+    {
+        "model": "mainapp.coursefeedback",
+        "pk": 4,
+        "fields": {
+            "course": 2,
+            "user": 1,
+            "feedback": "Feedback 004",
+            "rating": 4,
+            "created": "2021-09-03T16:57:24.359Z",
+            "deleted": false
+        }
+    },
+    {
+        "model": "mainapp.coursefeedback",
+        "pk": 5,
+        "fields": {
+            "course": 2,
+            "user": 1,
+            "feedback": "Feedback 005",
+            "rating": 3,
+            "created": "2021-09-03T16:57:32.965Z",
+            "deleted": false
+        }
+    },
+    {
+        "model": "mainapp.coursefeedback",
+        "pk": 6,
+        "fields": {
+            "course": 2,
+            "user": 1,
+            "feedback": "Feedback 006",
+            "rating": 3,
+            "created": "2021-09-03T16:57:42.372Z",
+            "deleted": false
+        }
+    }
+]

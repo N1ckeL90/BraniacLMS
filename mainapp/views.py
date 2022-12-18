@@ -15,7 +15,6 @@ from mainapp import models as mainapp_models
 from mainapp import forms as mainapp_forms
 from mainapp import tasks as mainapp_tasks
 
-
 logger = logging.getLogger(__name__)
 
 
@@ -52,7 +51,7 @@ class CoursesDetailView(TemplateView):
         context["teachers"] = mainapp_models.CourseTeachers.objects.filter(course=context["course_object"])
         if not self.request.user.is_anonymous:
             if not mainapp_models.CourseFeedback.objects.filter(
-                course=context["course_object"], user=self.request.user
+                    course=context["course_object"], user=self.request.user
             ).count():
                 context["feedback_form"] = mainapp_forms.CourseFeedbackForm(
                     course=context["course_object"], user=self.request.user
@@ -66,7 +65,14 @@ class CoursesDetailView(TemplateView):
             cache.set(
                 f"feedback_list_{pk}", context["feedback_list"], timeout=300
             )
-        context["feedback_list"] = cached_feedback
+            import pickle
+            with open(
+                    f"mainapp/fixtures/006_feedback_list_{pk}.bin", "wb") as outf:
+                pickle.dump(context["feedback_list"], outf
+                            )
+        else:
+            context["feedback_list"] = cached_feedback
+
         return context
 
 
